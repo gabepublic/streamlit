@@ -16,3 +16,12 @@ C:\streamlit>.venv\Scripts\activate
 ```
 pip install streamlit
 ```
+
+## Develop the App
+
+- the main file, `main.py`
+
+- run the app
+```
+streamlit run main.py
+```
