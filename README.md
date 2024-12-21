@@ -25,3 +25,10 @@ pip install streamlit
 ```
 streamlit run main.py
 ```
+
+## SETUP SSL Certificates for luxr365.com
+```
+SSLCertificateFile /etc/letsencrypt/live/luxr360.com/fullchain.pem
+SSLCertificateKeyFile /etc/letsencrypt/live/luxr360.com/privkey.pem
+```
+

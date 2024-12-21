@@ -1,37 +1,55 @@
 import streamlit as st
-import pandas as pd
-import numpy as np
+
+st.set_page_config(
+    page_title = "Streamlit Playground",
+    page_icon = "favicon.ico",
+    layout = "centered",     # centered, wide
+    initial_sidebar_state = "expanded",    # expanded, collapsed, auto
+    menu_items = {
+        "Get Help": "https://docs.streamlit.io/",
+        "About": "Streamlit Playground"
+    }
+)
+
+st.sidebar.title("Streamlit Playground")
 
 st.title('Streamlit Playground')
-#st.title('Uber pickups in NYC')
 
-DATE_COLUMN = 'date/time'
-DATA_URL = ('https://s3-us-west-2.amazonaws.com/'
-            'streamlit-demo-data/uber-raw-data-sep14.csv.gz')
+print("STEP-1: reenter dashboard..")
 
-@st.cache_data
-def load_data(nrows):
-    data = pd.read_csv(DATA_URL, nrows=nrows)
-    lowercase = lambda x: str(x).lower()
-    data.rename(lowercase, axis='columns', inplace=True)
-    data[DATE_COLUMN] = pd.to_datetime(data[DATE_COLUMN])
-    return data
+# Initialize chat history
+if "messages" not in st.session_state:
+    print(f'new session messages added!')
+    st.session_state.messages = []
+else:
+    msgs = st.session_state.messages
+    print(f'msg not empty: {len(msgs)}')
 
-data_load_state = st.text('Loading data...')
-data = load_data(10000)
-data_load_state.text("Done! (using st.cache_data)")
 
-if st.checkbox('Show raw data'):
-    st.subheader('Raw data')
-    st.write(data)
+# Display chat messages from history on app rerun
+for message in st.session_state.messages:
+    print(f'msg: {message["content"]}')
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
 
-st.subheader('Number of pickups by hour')
-hist_values = np.histogram(data[DATE_COLUMN].dt.hour, bins=24, range=(0,24))[0]
-st.bar_chart(hist_values)
+print("STEP-2: finish showing messages..")
 
-# Some number in the range 0-23
-hour_to_filter = st.slider('hour', 0, 23, 17)
-filtered_data = data[data[DATE_COLUMN].dt.hour == hour_to_filter]
+# React to user input
+if prompt := st.chat_input("What is up?"):
+    print(f'getting prompt: {prompt}')
 
-st.subheader('Map of all pickups at %s:00' % hour_to_filter)
-st.map(filtered_data)
+    # Display user message in chat message container
+    st.chat_message("user").markdown(prompt)
+    # Add user message to chat history
+    st.session_state.messages.append({"role": "user", "content": prompt})
+
+    response = f"Echo: {prompt}"
+    # Display assistant response in chat message container
+    with st.chat_message("assistant"):
+        st.markdown(response)
+    # Add assistant response to chat history
+    st.session_state.messages.append({"role": "assistant", "content": response})
+
+    print("prompt added to messages session")
+
+print("STEP-3: leaving page")
