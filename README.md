@@ -32,3 +32,7 @@ SSLCertificateFile /etc/letsencrypt/live/luxr360.com/fullchain.pem
 SSLCertificateKeyFile /etc/letsencrypt/live/luxr360.com/privkey.pem
 ```
 
+## MISC References and Notes
+
+Style Guide · [streamlit/streamlit Wiki (github.com)](https://github.com/streamlit/streamlit/wiki/Style-Guide)
+Streamlit expert Github - [andfanilo (Fanilo Andrianasolo) (github.com)](https://github.com/andfanilo)
